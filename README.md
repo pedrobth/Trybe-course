@@ -6,7 +6,7 @@
   
 - [ ] Recipes app - React-JS (teamwork)
 
-- [x] [Starwars Database - React-JS: Context-API and Hooks] (/pedrobth/Trybe-course/tree/prj-starwars-database)
+- [x] [Starwars Database - React-JS: Context-API and Hooks](https://github.com/pedrobth/Trybe-course/tree/prj-starwars-database)
 
 - [ ] Trivia - React-JS: React-JS: Redux (teamwork)
 
