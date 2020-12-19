@@ -10,7 +10,7 @@
 
 - [ ] Trivia - React-JS: React-JS: Redux (teamwork)
 
-- [ ] Trybe Wallet - React-JS: Redux (React-JS)
+- [x] [Trybe Wallet - React-JS: Redux (React-JS)](https://github.com/pedrobth/Trybe-course/tree/prj-trybe-wallet)
 
 - [ ] React Testing - React-JS: Testing Library (RTL) introduction
 
