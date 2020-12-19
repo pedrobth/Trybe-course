@@ -12,7 +12,7 @@
 
 - [x] [Trybe Wallet - React-JS: Redux (React-JS)](https://github.com/pedrobth/Trybe-course/tree/prj-trybe-wallet)
 
-- [ ] React Testing - React-JS: Testing Library (RTL) introduction
+- [x] [React Testing - React-JS: Testing Library (RTL) introduction](https://github.com/pedrobth/Trybe-course/tree/prj-react-testing-library)
 
 - [ ] FrontEnd Online Store - Agile metodologies (teamwork)
 
