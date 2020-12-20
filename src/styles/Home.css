@@ -1,0 +1,52 @@
+section {
+  border: 1px solid black;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 10px;
+}
+
+section input {
+  margin: 10px auto;
+}
+
+main {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+main label {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100px;
+  width: 90%;
+}
+
+main label input {
+  height: 20px;
+  width: 100%;
+}
+
+.cart-wrapper {
+  display: flex;
+  width: 40px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  width: 30px;
+}
+
+.items-in-cart {
+  background-color: red;
+  border-radius: 40%;
+  bottom: 0;
+  font-size: 12px;
+  font-weight: 850;
+  height: 20px;
+  position: relative;
+  right: 3px;
+  text-decoration: none;
+  width: 20px;
+}
