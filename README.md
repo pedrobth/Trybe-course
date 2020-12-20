@@ -14,7 +14,7 @@
 
 - [x] [React Testing - React-JS: Testing Library (RTL) introduction](https://github.com/pedrobth/Trybe-course/tree/prj-react-testing-library)
 
-- [ ] FrontEnd Online Store - Agile metodologies (teamwork)
+- [x] [FrontEnd Online Store - Agile metodologies (teamwork)](https://github.com/pedrobth/Trybe-course/tree/prj-online-store)
 
 - [ ] Movie Cards Library CRUD - React-JS: Lifecycle
 
