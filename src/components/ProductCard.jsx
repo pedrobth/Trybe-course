@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import * as api from '../services/api';
 import freeShipping from '../img/free-shipping.png';
 
 export default class ProductCard extends Component {
@@ -24,29 +25,37 @@ export default class ProductCard extends Component {
     this.calcShipping = this.calcShipping.bind(this);
   }
 
-  addToCart() {
-    const { title, price, thumbnail, quantity, availableQuantity, productId } = this.state;
+  async addToCart() {
 
-    const obj = {
+    const { title, price, thumbnail, quantity, productId } = this.state;
+    const { available_quantity } = await api.getProductsFromId(productId);
+    const product = {
       title,
       price,
       thumbnail,
       quantity,
-      availableQuantity,
+      availableQuantity: available_quantity,
       productId,
     };
 
+    const newLocalStorage = [];
+
     if (!localStorage.getItem('cart')) {
-      const array = [];
-      array.push(obj);
-      localStorage.clear();
-      localStorage.setItem('cart', JSON.stringify(array));
+      newLocalStorage.push(product);
     } else {
-      const save = JSON.parse(localStorage.getItem('cart'));
-      save.push(obj);
-      localStorage.clear();
-      localStorage.setItem('cart', JSON.stringify(save));
+      const oldLocalStorage = JSON.parse(localStorage.getItem('cart'));
+      const productIndex = oldLocalStorage.findIndex((product) => product.productId === productId);
+      if (productIndex === -1) {
+        product.quantity = quantity;
+        oldLocalStorage.push(product);
+      } else if (available_quantity <= (quantity + oldLocalStorage[productIndex].quantity)) {
+        oldLocalStorage[productIndex].quantity = available_quantity;
+      } else {
+        oldLocalStorage[productIndex].quantity += quantity;
+      }
+      oldLocalStorage.map((product) => newLocalStorage.push(product));
     }
+    localStorage.setItem('cart', JSON.stringify(newLocalStorage));
     this.props.updateCartIcon();
   }
 
