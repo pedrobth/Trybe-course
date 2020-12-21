@@ -40,7 +40,6 @@ export default class ProductDetails extends Component {
     const productList = await api.getProductsFromCategoryAndQuery(category, title);
     const productFilter = productList.results.filter(product => product.id === productId)[0];
     const product = productFilter ? productFilter : productFromId;
-    console.log(product)
     const { price, thumbnail, attributes, available_quantity } = product;
     this.setState({
       title: product.title,
@@ -106,6 +105,7 @@ export default class ProductDetails extends Component {
   }
 
   async addToCart() {
+
     const { title, price, thumbnail, quantity, productId } = this.state;
     const { available_quantity } = await api.getProductsFromId(productId);
     const product = {
@@ -124,7 +124,6 @@ export default class ProductDetails extends Component {
     } else {
       const oldLocalStorage = JSON.parse(localStorage.getItem('cart'));
       const productIndex = oldLocalStorage.findIndex((product) => product.productId === productId);
-      /* [{"title":"Rum Brasileiro Carta Ouro Bacardi Garrafa 980ml","price":37.2,"thumbnail":"http://mlb-s1-p.mlstatic.com/762874-MLA43881008216_102020-I.jpg","quantity":1,"availableQuantity":6,"productId":"MLB1738058558"}] */
       if (productIndex === -1) {
         product.quantity = quantity;
         oldLocalStorage.push(product);
@@ -134,8 +133,8 @@ export default class ProductDetails extends Component {
         oldLocalStorage[productIndex].quantity += quantity;
       }
       oldLocalStorage.map((product) => newLocalStorage.push(product));
-      localStorage.setItem('cart', JSON.stringify(newLocalStorage));
     }
+    localStorage.setItem('cart', JSON.stringify(newLocalStorage));
   }
 
   formProduct() {

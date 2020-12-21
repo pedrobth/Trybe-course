@@ -20,26 +20,19 @@ class ShoppingCart extends Component {
     this.checkoutItems = this.checkoutItems.bind(this);
   }
 
-  buildCartFromStorage() {
+  async buildCartFromStorage() {
     if (localStorage.getItem('cart')) {
-      const save = JSON.parse(localStorage.getItem('cart'));
-      this.setState({ productList: save });
+      const productsFromStorage = await JSON.parse(localStorage.getItem('cart'));
+      this.setState({ productList: productsFromStorage });
     }
   }
 
   componentDidMount() {
     this.buildCartFromStorage();
-    if (localStorage.getItem('cart')) {
-      const productList = JSON.parse(localStorage.getItem('cart'));
-      this.setState({
-        productList,
-      });
-    }
   }
 
-  addProduct(productTitle, addQuantity, event) {
+  addProduct(productTitle, addQuantity) {
     const productListOnAdd = JSON.parse(localStorage.getItem('cart'));
-    console.log(productListOnAdd);
     const indexProduct = productListOnAdd.findIndex(item => item.title === productTitle);
     productListOnAdd[indexProduct].quantity = addQuantity + 1;
     this.setState(() => ({ productList: productListOnAdd }));
@@ -122,7 +115,6 @@ class ShoppingCart extends Component {
                   -
                 </button>
                 <span>{product.quantity}</span>
-                {/* Source: https://raw.githubusercontent.com/tryber/sd-06-project-frontend-online-store/main-group-4/src/pages/ShoppingCart/index.jsx */}
                 <button
                   data-testid="product-increase-quantity"
                   className="plus-product"

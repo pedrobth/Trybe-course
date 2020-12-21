@@ -30,9 +30,9 @@ export default class Home extends Component {
   }
   
   updateCartIcon() {
-      const cart = localStorage
+      const cart = localStorage.getItem('cart')
       ? JSON.parse(localStorage.getItem('cart'))
-    : [];
+      : [];
     this.setState({ cartProducts: cart });
   }
 
