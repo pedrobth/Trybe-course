@@ -25,13 +25,15 @@ export default class ProductCard extends Component {
   }
 
   addToCart() {
+    const { title, price, thumbnail, quantity, availableQuantity, productId } = this.state;
 
     const obj = {
-      title: this.state.title,
-      price: this.state.price,
-      thumbnail: this.state.thumbnail,
-      quantity: this.state.quantity,
-      availableQuantity: this.state.availableQuantity,
+      title,
+      price,
+      thumbnail,
+      quantity,
+      availableQuantity,
+      productId,
     };
 
     if (!localStorage.getItem('cart')) {

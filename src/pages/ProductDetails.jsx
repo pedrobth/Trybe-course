@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as api from '../services/api';
 import { Link } from 'react-router-dom';
 import empytCart from '../img/empty-cart.png';
 
-export default class ProductDetails extends React.Component {
+export default class ProductDetails extends Component {
   constructor(props) {
     super(props);
 
@@ -13,8 +13,9 @@ export default class ProductDetails extends React.Component {
       thumbnail: '',
       attributes: '',
       loading: true,
-      id: props.id,
+      productId: props.match.params.productId,
       quantity: 1,
+      available_quantity: 0,
       email: '',
       comment: '',
     }
@@ -39,12 +40,14 @@ export default class ProductDetails extends React.Component {
     const productList = await api.getProductsFromCategoryAndQuery(category, title);
     const productFilter = productList.results.filter(product => product.id === productId)[0];
     const product = productFilter ? productFilter : productFromId;
-    const { price, thumbnail, attributes } = product;
+    console.log(product)
+    const { price, thumbnail, attributes, available_quantity } = product;
     this.setState({
       title: product.title,
       price,
       thumbnail,
       attributes,
+      available_quantity,
       loading: false,
     });
     if (!localStorage.getItem('cart')) {
@@ -102,27 +105,36 @@ export default class ProductDetails extends React.Component {
     });
   }
 
-  addToCart() {
+  async addToCart() {
+    const { title, price, thumbnail, quantity, productId } = this.state;
+    const { available_quantity } = await api.getProductsFromId(productId);
+    const product = {
+      title,
+      price,
+      thumbnail,
+      quantity,
+      availableQuantity: available_quantity,
+      productId,
+    };
+
+    const newLocalStorage = [];
+
     if (!localStorage.getItem('cart')) {
-      const array = [];
-      const obj = {
-        title: this.state.title,
-        quantity: this.state.quantity,
-        price: this.state.price,
-      };
-      array.push(obj);
-      // localStorage.clear();
-      localStorage.setItem('cart', JSON.stringify(array));
+      newLocalStorage.push(product);
     } else {
-      const save = JSON.parse(localStorage.getItem('cart'));
-      const obj = {
-        title: this.state.title,
-        quantity: this.state.quantity,
-        price: this.state.price,
-      };
-      save.push(obj);
-      // localStorage.clear();
-      localStorage.setItem('cart', JSON.stringify(save));
+      const oldLocalStorage = JSON.parse(localStorage.getItem('cart'));
+      const productIndex = oldLocalStorage.findIndex((product) => product.productId === productId);
+      /* [{"title":"Rum Brasileiro Carta Ouro Bacardi Garrafa 980ml","price":37.2,"thumbnail":"http://mlb-s1-p.mlstatic.com/762874-MLA43881008216_102020-I.jpg","quantity":1,"availableQuantity":6,"productId":"MLB1738058558"}] */
+      if (productIndex === -1) {
+        product.quantity = quantity;
+        oldLocalStorage.push(product);
+      } else if (available_quantity <= (quantity + oldLocalStorage[productIndex].quantity)) {
+        oldLocalStorage[productIndex].quantity = available_quantity;
+      } else {
+        oldLocalStorage[productIndex].quantity += quantity;
+      }
+      oldLocalStorage.map((product) => newLocalStorage.push(product));
+      localStorage.setItem('cart', JSON.stringify(newLocalStorage));
     }
   }
 
@@ -156,8 +168,8 @@ export default class ProductDetails extends React.Component {
   }
 
   saveForm() {
-    const { title, email, comment } = this.state;
-    if (!localStorage.getItem(title)) {
+    const { productId, email, comment } = this.state;
+    if (!localStorage.getItem(productId)) {
       const array = [];
       if (email) {
         const obj = {
@@ -165,19 +177,19 @@ export default class ProductDetails extends React.Component {
           comment,
         };
         array.push(obj);
-        localStorage.setItem(title, JSON.stringify(array));
+        localStorage.setItem(productId, JSON.stringify(array));
       } else {
 
       }
     } else {
       if (email) {
-        const save = JSON.parse(localStorage.getItem(title));
+        const save = JSON.parse(localStorage.getItem(productId));
         const obj = {
           email,
           comment,
         };
         save.push(obj);
-        localStorage.setItem(title, JSON.stringify(save));
+        localStorage.setItem(productId, JSON.stringify(save));
       } else {
         alert('Digite um email')
       }

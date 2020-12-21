@@ -39,6 +39,7 @@ class ShoppingCart extends Component {
 
   addProduct(productTitle, addQuantity, event) {
     const productListOnAdd = JSON.parse(localStorage.getItem('cart'));
+    console.log(productListOnAdd);
     const indexProduct = productListOnAdd.findIndex(item => item.title === productTitle);
     productListOnAdd[indexProduct].quantity = addQuantity + 1;
     this.setState(() => ({ productList: productListOnAdd }));
