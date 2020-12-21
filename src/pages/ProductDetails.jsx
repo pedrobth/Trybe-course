@@ -228,7 +228,7 @@ export default class ProductDetails extends Component {
             <button className="less-product" onClick={this.lessProduct}>-</button>
             <span>{quantity}</span>
             <button className="plus-product" onClick={this.addProduct}>+</button>
-            <Link to={`/cart/`} data-testid="product-detail-add-to-cart" onClick={this.addToCart}>Add ao carrinho</Link>
+            <Link to={`/cart/`} data-testid="product-detail-add-to-cart" onClick={this.addToCart}>Inserir no Carrinho</Link>
           </div>
           {
             cartProducts

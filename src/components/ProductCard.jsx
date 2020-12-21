@@ -72,7 +72,7 @@ export default class ProductCard extends Component {
         </Link>
         {
           attributes.map(({ name, value_name: valueName, productId }) => (
-            <p key={ productId }>{`${name}: ${valueName}`}</p>
+            <p key={ `${productId}-${name}` }>{`${name}: ${valueName}`}</p>
           ))
         }
       </div>
