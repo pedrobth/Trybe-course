@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as api from '../services/api';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import empytCart from '../img/empty-cart.png';
 
 export default class ProductDetails extends Component {
@@ -42,6 +42,7 @@ export default class ProductDetails extends Component {
     const product = productFilter ? productFilter : productFromId;
     const { price, thumbnail, attributes, available_quantity } = product;
     this.setState({
+      addedToCart: false,
       title: product.title,
       price,
       thumbnail,
@@ -135,6 +136,7 @@ export default class ProductDetails extends Component {
       oldLocalStorage.map((product) => newLocalStorage.push(product));
     }
     localStorage.setItem('cart', JSON.stringify(newLocalStorage));
+    this.setState({ addedToCart: true })
   }
 
   formProduct() {
@@ -228,7 +230,13 @@ export default class ProductDetails extends Component {
             <button className="less-product" onClick={this.lessProduct}>-</button>
             <span>{quantity}</span>
             <button className="plus-product" onClick={this.addProduct}>+</button>
-            <Link to={`/cart/`} data-testid="product-detail-add-to-cart" onClick={this.addToCart}>Inserir no Carrinho</Link>
+            <button
+              // to={`/cart/`}
+              data-testid="product-detail-add-to-cart" onClick={this.addToCart}
+              type="button"
+            >
+              Inserir no Carrinho
+            </button>
           </div>
           {
             cartProducts
@@ -243,11 +251,13 @@ export default class ProductDetails extends Component {
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, addedToCart } = this.state
     return (
-      loading
-        ? <this.loadingPage />
-        : <this.detailedProduct />
+      addedToCart
+      ? <Redirect to="/cart"/>
+      : loading
+          ? <this.loadingPage />
+          : <this.detailedProduct />
     )
   }
 }
