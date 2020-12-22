@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import App from '../App';
+import updateCartIcon from '../pages/Home';
 import * as api from '../services/api';
 import mockedCategoriesResult from '../__mocks__/categories';
 import mockedQueryResult from '../__mocks__/query';
@@ -10,6 +11,9 @@ api.getCategories.mockImplementation(
   () => Promise.resolve(mockedCategoriesResult),
 );
 api.getProductsFromCategoryAndQuery.mockImplementation(
+  () => Promise.resolve(mockedQueryResult),
+);
+api.getProductsFromId.mockImplementation(
   () => Promise.resolve(mockedQueryResult),
 );
 
@@ -22,7 +26,7 @@ describe(`Ver junto ao ícone do carrinho a quantidade de produtos dentro dele, 
     await waitFor(() => expect(api.getProductsFromCategoryAndQuery).toHaveBeenCalled());
     fireEvent.click(screen.getAllByTestId('product-add-to-cart')[0]);
     fireEvent.click(screen.getAllByTestId('product-add-to-cart')[1]);
-    expect(screen.getByTestId('shopping-cart-size')).toHaveTextContent('2');
+    await waitFor(() => expect(screen.getByTestId('shopping-cart-size')).toHaveTextContent('2'));
   });
 
   it('Vê a quantidade de produtos no carrinho da tela de detalhes', async () => {
@@ -33,6 +37,6 @@ describe(`Ver junto ao ícone do carrinho a quantidade de produtos dentro dele, 
     fireEvent.click(screen.getAllByTestId('product-add-to-cart')[0]);
     fireEvent.click(screen.getAllByTestId('product-add-to-cart')[1]);
     fireEvent.click(screen.getAllByTestId('product-detail-link')[0]);
-    expect(screen.getByTestId('shopping-cart-size')).toHaveTextContent('4');
+    await waitFor(() => expect(screen.getByTestId('shopping-cart-size')).toHaveTextContent('2'));
   });
 });

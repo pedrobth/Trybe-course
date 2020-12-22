@@ -11,21 +11,21 @@ api.getCategories.mockImplementation(
   () => new Promise((resolve, reject) => {
     mockedCategoriesResult
       ? resolve(mockedCategoriesResult)
-      : reject(err)
+      : reject(error)
   })
 );
 api.getProductsFromCategoryAndQuery.mockImplementation(
   () => new Promise((resolve, reject) => {
     mockedQueryResult
       ? resolve(mockedQueryResult)
-      : reject(err)
+      : reject(error)
   })
 );
 api.getProductsFromId.mockImplementation(
   () => new Promise((resolve, reject) => {
     mockedIdResult
       ? resolve(mockedIdResult)
-      : reject(err)
+      : reject(error)
   })
 );
 
