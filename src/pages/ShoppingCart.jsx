@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/ShoppingCart.css';
 import cart from '../img/cart.png';
 import goHome from '../img/back.png';
+import * as api from '../services/api';
 import empytCart from '../img/empty-cart.png';
 
 class ShoppingCart extends Component {
@@ -14,7 +15,7 @@ class ShoppingCart extends Component {
     };
 
     this.buildCartFromStorage = this.buildCartFromStorage.bind(this);
-    this.lessProduct = this.lessProduct.bind(this);
+    this.removeProduct = this.removeProduct.bind(this);
     this.addProduct = this.addProduct.bind(this);
     this.updateLocalStorage = this.updateLocalStorage.bind(this);
     this.checkoutItems = this.checkoutItems.bind(this);
@@ -31,6 +32,19 @@ class ShoppingCart extends Component {
     this.buildCartFromStorage();
   }
 
+  /* async addProduct(productTitle, addQuantity) {
+    const productListOnAdd = JSON.parse(localStorage.getItem('cart'));
+    const indexProduct = productListOnAdd.findIndex(item => item.title === productTitle);
+    const productId = productListOnAdd[indexProduct].productId;
+    const products = await api.getProductsFromId(productId).results;
+    const availableQuantity = products.find((product) => product.id === productId);
+    productListOnAdd[indexProduct].quantity = addQuantity + 1 < availableQuantity
+      ? addQuantity + 1
+      : availableQuantity
+    this.setState(() => ({ productList: productListOnAdd }));
+    this.updateLocalStorage(productListOnAdd);
+  } */
+
   addProduct(productTitle, addQuantity) {
     const productListOnAdd = JSON.parse(localStorage.getItem('cart'));
     const indexProduct = productListOnAdd.findIndex(item => item.title === productTitle);
@@ -40,7 +54,7 @@ class ShoppingCart extends Component {
   }
 
 
-  lessProduct(productTitle, decreaseQuantity) {
+  removeProduct(productTitle, decreaseQuantity) {
     const value = decreaseQuantity < 1
       ? 1
       : decreaseQuantity;
@@ -110,7 +124,7 @@ class ShoppingCart extends Component {
                 <button
                   data-testid="product-decrease-quantity"
                   className="less-product"
-                  onClick={ () => this.lessProduct(product.title, product.quantity) }
+                  onClick={ () => this.removeProduct(product.title, product.quantity) }
                 >
                   -
                 </button>
