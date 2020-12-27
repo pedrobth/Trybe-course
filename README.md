@@ -1,3 +1,8 @@
+# cs50w <h1>
+
+## Project <h2>
+- [x] [Books review - python, PostgreSQL in Heroku, Flask, bootstrap](https://github.com/pedrobth/cs50w-prj1)
+
 # Trybe course <h1>
   
   ## Projects <h2>
